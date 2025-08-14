@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dr. Salamon Attila - Fül-orr-gégész</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --primary: #0066cc;
+      --primary-light: #4da6ff;
+      --primary-dark: #004499;
+      --accent: #00d4aa;
+      --accent-dark: #00a085;
+      --neutral-light: #f8fafc;
+      --neutral: #e2e8f0;
+      --neutral-dark: #475569;
+      --surface: #ffffff;
+      --text-primary: #1e293b;
+      --text-secondary: #64748b;
+      --success: #22c55e;
+      --error: #ef4444;
+      --link: #0066cc;
+      --gradient: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--neutral-light);
+      color: var(--text-primary);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* Header */
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+      z-index: 1000;
+      transition: all 0.3s ease;
+    }
+
+    .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+    }
+
+    .logo-text {
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+
+    .logo-text:hover {
+      transform: translateY(-2px);
+    }
+
+    .name {
+      font-size: 1.5rem;
+      font-weight: 700;
+      background: var(--gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .subtitle {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      font-weight: 500;
+    }
+
+    .menu-toggle {
+      display: none;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: var(--text-primary);
+    }
+
+    .main-nav {
+      display: flex;
+      gap: 2rem;
+    }
+
+    .main-nav a {
+      color: var(--text-primary);
+      text-decoration: none;
+      font-weight: 500;
+      padding: 0.5rem 1rem;
+      border-radius: 25px;
+      transition: all 0.3s ease;
+    }
+
+    .main-nav a:hover {
+      background: var(--gradient);
+      color: white;
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px rgba(0, 102, 204, 0.3);
+    }
+
+    .cta-header {
+      background: var(--gradient);
+      color: white;
+      padding: 0.75rem 1.5rem;
+      border-radius: 50px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(0, 102, 204, 0.3);
+      animation: pulse-glow 2s infinite;
+    }
+
+    .cta-header:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 25px rgba(0, 102, 204, 0.4);
+    }
+
+    @keyframes pulse-glow {
+      0%, 100% { box-shadow: 0 4px 15px rgba(0, 102, 204, 0.3); }
+      50% { box-shadow: 0 4px 25px rgba(0, 102, 204, 0.5); }
+    }
+
+    /* Hero Section */
+    .hero {
+      height: 100vh;
+      background: linear-gradient(135deg, rgba(0, 102, 204, 0.9) 0%, rgba(0, 212, 170, 0.8) 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      width: 200%;
+      height: 200%;
+      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="10" cy="10" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="90" cy="90" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="50" cy="50" r="1" fill="rgba(255,255,255,0.1)"/></svg>') repeat;
+      animation: float 20s linear infinite;
+    }
+
+    @keyframes float {
+      0% { transform: translate(-50px, -50px); }
+      100% { transform: translate(-150px, -150px); }
+    }
+
+    .hero-content {
+      max-width: 800px;
+      padding: 2rem;
+      z-index: 2;
+      position: relative;
+    }
+
+    .hero h1 {
+      font-size: 3.5rem;
+      font-weight: 700;
+      color: white;
+      margin-bottom: 1rem;
+      opacity: 0;
+      animation: slideUp 1s ease 0.2s forwards;
+    }
+
+    .hero-subtitle {
+      font-size: 1.3rem;
+      color: rgba(255, 255, 255, 0.9);
+      margin-bottom: 2rem;
+      opacity: 0;
+      animation: slideUp 1s ease 0.4s forwards;
+    }
+
+    .quote-box {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 20px;
+      padding: 2rem;
+      margin: 2rem auto;
+      max-width: 600px;
+      opacity: 0;
+      animation: slideUp 1s ease 0.6s forwards;
+    }
+
+    .quote-box blockquote {
+      font-size: 1.1rem;
+      font-style: italic;
+      color: white;
+      margin-bottom: 1rem;
+      line-height: 1.7;
+    }
+
+    .quote-box cite {
+      color: rgba(255, 255, 255, 0.8);
+      font-weight: 600;
+      display: block;
+      text-align: right;
+    }
+
+    .hero-cta {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 2rem;
+      opacity: 0;
+      animation: slideUp 1s ease 0.8s forwards;
+    }
+
+    .btn-primary {
+      background: white;
+      color: var(--primary);
+      padding: 1rem 2rem;
+      border-radius: 50px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1.1rem;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: white;
+      border: 2px solid white;
+      padding: 1rem 2rem;
+      border-radius: 50px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+
+    .btn-secondary:hover {
+      background: white;
+      color: var(--primary);
+      transform: translateY(-3px);
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(50px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Services Section */
+    .services {
+      padding: 5rem 2rem;
+      background: white;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .section-title {
+      text-align: center;
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      background: var(--gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .section-subtitle {
+      text-align: center;
+      font-size: 1.2rem;
+      color: var(--text-secondary);
+      margin-bottom: 3rem;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      margin-bottom: 3rem;
+    }
+
+    .service-card {
+      background: white;
+      padding: 2rem;
+      border-radius: 20px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
+      border: 1px solid var(--neutral);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .service-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: var(--gradient);
+      transform: scaleX(0);
+      transition: transform 0.3s ease;
+    }
+
+    .service-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+    }
+
+    .service-card:hover::before {
+      transform: scaleX(1);
+    }
+
+    .service-icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      color: var(--primary);
+    }
+
+    .service-card h3 {
+      font-size: 1.3rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      color: var(--text-primary);
+    }
+
+    .service-card p {
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+
+    /* Doctor Section */
+    .doctor-section {
+      padding: 5rem 2rem;
+      background: var(--gradient);
+      color: white;
+    }
+
+    .doctor-content {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: center;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .doctor-image {
+      text-align: center;
+    }
+
+    .doctor-image img {
+      max-width: 400px;
+      width: 100%;
+      border-radius: 20px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    }
+
+    .doctor-text h2 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      color: white;
+    }
+
+    .doctor-text p {
+      font-size: 1.1rem;
+      line-height: 1.7;
+      margin-bottom: 1.5rem;
+      opacity: 0.9;
+    }
+
+    /* Schedule Section */
+    .schedule {
+      padding: 5rem 2rem;
+      background: white;
+    }
+
+    .schedule-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .schedule-card {
+      background: var(--gradient);
+      color: white;
+      padding: 2rem;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0, 102, 204, 0.3);
+    }
+
+    .schedule-card h3 {
+      font-size: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .schedule-list {
+      list-style: none;
+    }
+
+    .schedule-list li {
+      padding: 0.75rem 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .schedule-list li:last-child {
+      border-bottom: none;
+    }
+
+    /* Contact Section */
+    .contact {
+      padding: 5rem 2rem;
+      background: var(--neutral-light);
+    }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .contact-card {
+      background: white;
+      padding: 2rem;
+      border-radius: 20px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+      padding: 1rem;
+      background: var(--neutral-light);
+      border-radius: 15px;
+      transition: all 0.3s ease;
+    }
+
+    .contact-item:hover {
+      background: var(--gradient);
+      color: white;
+      transform: translateX(10px);
+    }
+
+    .contact-item strong {
+      font-size: 1.1rem;
+    }
+
+    .contact-cta {
+      text-align: center;
+      background: var(--gradient);
+      color: white;
+      padding: 3rem 2rem;
+      border-radius: 20px;
+      margin-top: 2rem;
+    }
+
+    .contact-cta h3 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+
+    .contact-cta p {
+      font-size: 1.1rem;
+      margin-bottom: 2rem;
+      opacity: 0.9;
+    }
+
+    .cta-buttons {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .phone-btn {
+      background: white;
+      color: var(--primary);
+      padding: 1rem 2rem;
+      border-radius: 50px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1.1rem;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .phone-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Footer */
+    footer {
+      background: var(--text-primary);
+      color: white;
+      padding: 2rem;
+      text-align: center;
+    }
+
+    footer p {
+      margin-bottom: 0.5rem;
+    }
+
+    footer a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+
+    /* Floating CTA Button */
+    .floating-cta {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      background: var(--gradient);
+      color: white;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      box-shadow: 0 4px 20px rgba(0, 102, 204, 0.4);
+      z-index: 999;
+      transition: all 0.3s ease;
+      animation: bounce 2s infinite;
+      text-decoration: none;
+    }
+
+    .floating-cta:hover {
+      transform: scale(1.1);
+      box-shadow: 0 8px 30px rgba(0, 102, 204, 0.6);
+    }
+
+    @keyframes bounce {
+      0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+      40% { transform: translateY(-10px); }
+      60% { transform: translateY(-5px); }
+    }
+
+    /* Mobile Responsiveness */
+    @media (max-width: 768px) {
+      .menu-toggle {
+        display: block;
+      }
+
+      .main-nav {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(20px);
+        flex-direction: column;
+        padding: 1rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.2);
+      }
+
+      .main-nav.open {
+        display: flex;
+      }
+
+      .cta-header {
+        display: none;
+      }
+
+      .hero h1 {
+        font-size: 2.5rem;
+      }
+
+      .hero-subtitle {
+        font-size: 1.1rem;
+      }
+
+      .hero-cta {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .doctor-content,
+      .schedule-grid,
+      .contact-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+
+      .section-title {
+        font-size: 2rem;
+      }
+
+      .nav-container {
+        padding: 1rem;
+      }
+
+      .floating-cta {
+        width: 50px;
+        height: 50px;
+        font-size: 1.2rem;
+        bottom: 1rem;
+        right: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="nav-container">
+      <div class="logo-text" onclick="scrollToTop()">
+        <div class="name">Dr. Salamon Attila</div>
+        <div class="subtitle">Fül-orr-gégész</div>
+      </div>
+
+      <button class="menu-toggle" id="menu-button">☰</button>
+
+      <nav class="main-nav" id="main-nav">
+        <a href="#services">Szolgáltatások</a>
+        <a href="#schedule">Rendelési idő</a>
+        <a href="#contact">Kapcsolat</a>
+        <a href="#contact" class="cta-header">📅 Időpont foglalás</a>
+      </nav>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="hero-content">
+      <h1>Szakértő gyógyítás emberi hozzáállással</h1>
+      <p class="hero-subtitle">Modern fül-orr-gégészeti ellátás tapasztalt orvostól</p>
+      
+      <div class="quote-box">
+        <blockquote>
+          „A gyógyítás számomra nem csupán tudományos tevékenység, hanem hivatás, melyet lelkiismeretesen, empátiával és elhivatottsággal végzek."
+        </blockquote>
+        <cite>— Dr. Salamon Attila</cite>
+      </div>
+
+      <div class="hero-cta">
+        <a href="#contact" class="btn-primary">📞 Időpontot foglalok</a>
+        <a href="#services" class="btn-secondary">ℹ️ További információk</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="services" id="services">
+    <div class="container">
+      <h2 class="section-title">Amit Önért tehetek</h2>
+      <p class="section-subtitle">Modern diagnosztikai eljárások és személyre szabott kezelések</p>
+
+      <div class="services-grid">
+        <div class="service-card">
+          <div class="service-icon">👨‍⚕️</div>
+          <h3>Személyre szabott konzultáció</h3>
+          <p>Részletes kivizsgálás és egyéni kezelési terv készítése minden páciens számára</p>
+        </div>
+
+        <div class="service-card">
+          <div class="service-icon">🔬</div>
+          <h3>Mikroszkópos vizsgálat</h3>
+          <p>Precíz orrüregi és füli vizsgálatok modern mikroszkóppal</p>
+        </div>
+
+        <div class="service-card">
+          <div class="service-icon">📹</div>
+          <h3>Endoszkópos vizsgálat</h3>
+          <p>Fibrószkóppal végzett vizsgálatok: orrüreg, orrgarat, garat, gége, légcső</p>
+        </div>
+
+        <div class="service-card">
+          <div class="service-icon">💓</div>
+          <h3>Tympanometria</h3>
+          <p>Középfül szellőzésének professzionális vizsgálata</p>
+        </div>
+
+        <div class="service-card">
+          <div class="service-icon">🧪</div>
+          <h3>Mikrobiológiai mintavétel</h3>
+          <p>Baktérium- és gombatenyésztéshez szükséges szakszerű mintavétel</p>
+        </div>
+
+        <div class="service-card">
+          <div class="service-icon">📋</div>
+          <h3>Leletértékelés és fülmosás</h3>
+          <p>Komplett leletértékelés és szakszerű fültisztítás</p>
+        </div>
+      </div>
+
+      <div style="text-align: center; margin-top: 3rem;">
+        <h3 style="margin-bottom: 1.5rem; color: var(--primary);">Fedezze fel részletesen:</h3>
+        <div style="display: flex; gap: 2rem; justify-content: center; flex-wrap: wrap;">
+          <a href="#" style="color: var(--primary); text-decoration: none; font-weight: 600; padding: 0.5rem 1rem; border: 2px solid var(--primary); border-radius: 25px; transition: all 0.3s ease;">👂 Tudjon meg többet a fülről</a>
+          <a href="#" style="color: var(--primary); text-decoration: none; font-weight: 600; padding: 0.5rem 1rem; border: 2px solid var(--primary); border-radius: 25px; transition: all 0.3s ease;">👃 Tudjon meg többet az orrról</a>
+          <a href="#" style="color: var(--primary); text-decoration: none; font-weight: 600; padding: 0.5rem 1rem; border: 2px solid var(--primary); border-radius: 25px; transition: all 0.3s ease;">🗣️ Tudjon meg többet a torkáról</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="doctor-section">
+    <div class="doctor-content">
+      <div class="doctor-text">
+        <h2>Tapasztalat és empátia</h2>
+        <p>Dr. Salamon Attila több évtizedes tapasztalattal rendelkezik a fül-orr-gégészet területén. Küldetése, hogy minden páciense nem csak orvosi ellátást, hanem emberi megértést és gondoskodást is kapjon.</p>
+        <p>Modern eszközökkel és egyéni megközelítéssel biztosítja a lehető legjobb gyógyulási folyamatot minden beteg számára.</p>
+        <a href="#contact" class="btn-primary" style="margin-top: 1rem; display: inline-block;">📅 Időpont foglalás</a>
+      </div>
+      <div class="doctor-image">
+        <div style="width: 300px; height: 300px; background: rgba(255,255,255,0.1); border-radius: 20px; display: flex; align-items: center; justify-content: center; font-size: 4rem; margin: 0 auto;">👨‍⚕️</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="schedule" id="schedule">
+    <div class="container">
+      <h2 class="section-title">Rendelési idő</h2>
+      
+      <div class="schedule-grid">
+        <div class="schedule-card">
+          <h3>⏰ Heti program</h3>
+          <ul class="schedule-list">
+            <li><span>Hétfő</span><span>13:00 – 19:00</span></li>
+            <li><span>Kedd</span><span>13:00 – 19:00</span></li>
+            <li><span>Szerda</span><span>13:00 – 19:00</span></li>
+            <li><span>Csütörtök</span><span>13:00 – 19:00</span></li>
+            <li><span>Péntek</span><span>13:00 – 19:00</span></li>
+          </ul>
+        </div>
+
+        <div class="schedule-card">
+          <h3>📞 Időpontfoglalás</h3>
+          <ul class="schedule-list">
+            <li><span>Telefonon</span><span>8:00 – 16:00</span></li>
+            <li><span>Személyesen</span><span>Recepciónkon</span></li>
+            <li><span>Hétköznap</span><span>Hétfő – Péntek</span></li>
+          </ul>
+          <div style="margin-top: 1rem; padding: 1rem; background: rgba(255,255,255,0.1); border-radius: 10px; text-align: center;">
+            <strong>⚠️ Fontos!</strong><br>
+            Bejelentkezés minden esetben kötelező!
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="contact" id="contact">
+    <div class="container">
+      <h2 class="section-title">Kapcsolat</h2>
+      
+      <div class="contact-grid">
+        <div class="contact-card">
+          <h3 style="margin-bottom: 1.5rem; color: var(--primary);">ℹ️ Elérhetőségek</h3>
+          
+          <div class="contact-item">
+            <span style="font-size: 1.5rem;">📞</span>
+            <div>
+              <strong>+36 96 566 401</strong><br>
+              <small>Főszám</small>
+            </div>
+          </div>
+
+          <div class="contact-item">
+            <span style="font-size: 1.5rem;">📱</span>
+            <div>
+              <strong>+36 30 226 2636</strong><br>
+              <small>Mobil</small>
+            </div>
+          </div>
+
+          <div class="contact-item">
+            <span style="font-size: 1.5rem;">📍</span>
+            <div>
+              <strong>Városkapu Egészségcentrum</strong><br>
+              <small>9200 Mosonmagyaróvár, Városkapu tér 5.</small>
+            </div>
+          </div>
+        </div>
+
+        <div class="contact-card">
+          <h3 style="margin-bottom: 1.5rem; color: var(--primary);">🚗 Megközelítés</h3>
+          <p style="margin-bottom: 1rem;">A rendelő könnyen megközelíthető tömegközlekedéssel és autóval is.</p>
+          <p style="margin-bottom: 2rem;">Parkolási lehetőség a környező utcákban. A Városkapu téren 14 órától hétköznapokon is ingyenesen lehet parkolni.</p>
+        </div>
+      </div>
+
+      <div class="contact-cta">
+        <h3>🎯 Foglaljon időpontot még ma!</h3>
+        <p>Hívjon minket vagy jöjjön el személyesen a rendelőbe. Várjuk Önt professzionális és barátságos környezetben!</p>
+        <div class="cta-buttons">
+          <a href="tel:+36965664401" class="phone-btn">📞 +36 96 566 401</a>
+          <a href="tel:+36302262636" class="phone-btn">📱 +36 30 226 2636
